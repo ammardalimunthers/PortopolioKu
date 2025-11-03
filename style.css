@@ -261,3 +261,164 @@ textarea{min-height:120px;resize:vertical}
     text-align: center;
   }
 }
+
+/* --------------------------
+   MOBILE ENHANCED
+   -------------------------- */
+@media (max-width:720px){
+  /* padding main lebih nyaman */
+  #root {
+    padding: 20px 12px;
+  }
+
+  /* header */
+  header {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  nav .menu {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav a {
+    padding: 10px 16px;
+    width: 100%;
+    max-width: 200px;
+    border-radius: 14px;
+  }
+
+  /* layout main */
+  .layout {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* hero card */
+  .hero {
+    width: 100%;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+    border-radius: 18px;
+  }
+
+  .hero h2 {
+    font-size: 26px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  /* profile card */
+  .profile-card {
+    width: 90%;
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    padding: 18px;
+    backdrop-filter: blur(8px);
+  }
+
+  /* avatar */
+  .avatar {
+    width: 140px;
+    height: 140px;
+    margin: auto;
+  }
+
+  /* projects */
+  .grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .project {
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  .project:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+  }
+
+  /* contact section */
+  #contact {
+    width: 100%;
+    padding: 16px;
+    text-align: center;
+  }
+
+  #contact > div {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  #contact form {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #contact form .field input,
+  #contact form .field textarea {
+    width: 100%;
+    text-align: left;
+    padding: 12px 14px;
+  }
+
+  #contact form button {
+    width: 100%;
+    max-width: 200px;
+    margin: 6px 0;
+  }
+
+  /* socials & chips center */
+  #contact .socials,
+  #contact .chip {
+    justify-content: center;
+    margin: auto;
+  }
+
+  /* overlay page-card */
+  .page-card {
+    max-width: 95%;
+    max-height: 90vh;
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  /* semua heading & paragraph center */
+  h1,h2,h3,h4,p {
+    text-align: center;
+  }
+
+  /* tombol lebih interaktif */
+  .btn {
+    width: 100%;
+    max-width: 200px;
+    font-size: 15px;
+    padding: 12px 0;
+    margin: 4px auto;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+  }
+}
