@@ -30,6 +30,7 @@ a{color:inherit}
   min-height:100vh;
   position:relative;
   z-index:2;
+  background: transparent;
 }
 
 /* themes */
@@ -58,7 +59,7 @@ nav a{color:inherit;text-decoration:none;font-weight:600;padding:8px 12px;border
 nav a:hover{transform:translateY(-4px)}
 
 main{position:relative;z-index:10}
-.layout{display:grid;grid-template-columns:1fr 380px;gap:30px;align-items:start}
+.layout{display:grid;grid-template-columns:1fr 380px;gap:30px;align-items:start; justify-items:start;}
 .card{background:rgba(255,255,255,0.03);border-radius:18px;padding:22px;box-shadow:var(--card-shadow);backdrop-filter:blur(6px)}
 .card.flat{background:transparent;box-shadow:none;padding:0}
 .small-muted{font-size:13px;opacity:.95}
@@ -103,9 +104,7 @@ input[type="text"], input[type="email"], textarea, select{
 }
 textarea{min-height:120px;resize:vertical}
 
-/* --------------------------
-   PAGE OVERLAY FIX SCROLLABLE
-   -------------------------- */
+/* overlay page-card */
 .page-full{
   position:fixed;
   inset:0;
@@ -115,14 +114,13 @@ textarea{min-height:120px;resize:vertical}
   z-index:120;
   padding:18px;
   transition:opacity .2s;
-  overflow-y:auto; /* scroll jika tinggi konten > viewport */
+  overflow-y:auto;
 }
-
 .page-card{
   width:100%;
   max-width:980px;
-  max-height:90vh; /* batasi tinggi card */
-  overflow-y:auto; /* scroll dalam card */
+  max-height:90vh;
+  overflow-y:auto;
   border-radius:16px;
   padding:20px;
   background:rgba(255,255,255,0.98);
@@ -132,23 +130,17 @@ textarea{min-height:120px;resize:vertical}
   flex-direction:column;
   box-sizing:border-box;
 }
-
-/* overlay form layout */
 .page-card > .page-title + div{
   display:flex;
   flex-wrap:wrap;
   gap:16px;
 }
-
-/* kolom form */
 .page-card > .page-title + div > div{
   flex:1;
   min-width:260px;
   display:flex;
   flex-direction:column;
 }
-
-/* preview image box */
 .page-card img{
   width:100%;
   height:auto;
@@ -156,8 +148,6 @@ textarea{min-height:120px;resize:vertical}
   border-radius:12px;
   object-fit:cover;
 }
-
-/* tombol bawah overlay */
 .page-card > div:last-child{
   display:flex;
   justify-content:flex-end;
@@ -166,259 +156,39 @@ textarea{min-height:120px;resize:vertical}
   margin-top:12px;
 }
 
-/* responsive */
-@media (max-width:720px){
-  #root{padding:18px}
-  header{flex-direction:column;align-items:flex-start;gap:12px}
-  .layout{grid-template-columns:1fr}
-  .avatar{width:140px;height:140px}
-  .logo{width:52px;height:52px}
-  .grid{grid-template-columns:1fr}
-  .socials a{width:36px;height:36px}
-
-  /* overlay form responsive */
-  .page-card > .page-title + div{
-    flex-direction:column;
-  }
-  .page-card > .page-title + div > div{
-    min-width:100%;
-  }
-  .page-card{
-    max-height:95vh;
-    padding:15px;
-  }
-}
-
-/* --------------------------
-   MAIN TRANSPARAN
-   -------------------------- */
-#root {
-  background: transparent; /* sebelumnya #root memiliki padding + max-width */
-}
-
-/* --------------------------
-   MOBILE RESPONSIVE CENTERING
-   -------------------------- */
-@media (max-width:720px){
-  /* layout di main jadi center */
-  .layout {
-    grid-template-columns:1fr;
-    justify-items:center; /* semua elemen di grid center horizontal */
-    align-items:center;
-  }
-
-  /* kontak section flex agar terpusat */
-  #contact > div {
-    flex-direction: column; /* susun vertikal */
-    align-items: center;    /* center horizontal */
-    text-align: center;     /* teks di tengah */
-  }
-
-  /* field form center */
-  #contact form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    max-width: 400px; /* batasi lebar form */
-  }
-
-  #contact form .field input,
-  #contact form .field textarea {
-    width: 100%; /* penuh tapi masih sesuai max-width */
-    text-align: center; /* placeholder dan teks di tengah */
-  }
-
-  #contact form button {
-    width: 100%; /* tombol full-width */
-    max-width: 200px;
-    margin: 4px auto; /* beri jarak antar tombol */
-  }
-
-  /* socials dan chips di kontak center */
-  #contact .socials, 
-  #contact .chip {
-    justify-content: center;
-    margin: auto;
-  }
-
-  /* overlay page-card juga center di mobile */
-  .page-card {
-    margin: auto;
-    max-width: 90%;
-    max-height: 95vh;
-  }
-
-  /* hero dan profile-card juga center */
-  .hero, .profile-card {
-    margin: auto;
-    text-align: center;
-  }
-
-  /* semua teks heading dan paragraph center di HP */
-  h1, h2, h3, h4, p {
-    text-align: center;
-  }
-}
-
 /* --------------------------
    MOBILE ENHANCED
    -------------------------- */
 @media (max-width:720px){
-  /* padding main lebih nyaman */
-  #root {
-    padding: 20px 12px;
-  }
+  #root{padding:20px 12px}
 
-  /* header */
-  header {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    text-align: center;
-  }
+  header{flex-direction:column;align-items:center;text-align:center;gap:16px}
+  nav .menu{flex-direction:column;gap:10px}
+  nav a{width:100%;max-width:200px;padding:10px 16px;border-radius:14px}
 
-  nav .menu {
-    flex-direction: column;
-    gap: 10px;
-  }
+  .layout{grid-template-columns:1fr;justify-items:center;align-items:center;gap:20px}
 
-  nav a {
-    padding: 10px 16px;
-    width: 100%;
-    max-width: 200px;
-    border-radius: 14px;
-  }
+  .hero,.profile-card{width:90%;max-width:300px;margin:auto;text-align:center;padding:18px;backdrop-filter:blur(8px);border-radius:18px}
+  .hero h2{font-size:26px}
+  .hero p{font-size:14px}
 
-  /* layout main */
-  .layout {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    align-items: center;
-    gap: 20px;
-  }
+  .avatar{width:140px;height:140px;margin:auto}
 
-  /* hero card */
-  .hero {
-    width: 100%;
-    padding: 20px;
-    backdrop-filter: blur(8px);
-    border-radius: 18px;
-  }
+  .grid{grid-template-columns:1fr;width:100%;gap:16px}
+  .project{width:100%;padding:16px;border-radius:16px;backdrop-filter:blur(8px);transition: transform .25s ease, box-shadow .25s ease}
+  .project:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,0.35)}
 
-  .hero h2 {
-    font-size: 26px;
-  }
-
-  .hero p {
-    font-size: 14px;
-  }
-
-  /* profile card */
-  .profile-card {
-    width: 90%;
-    max-width: 300px;
-    margin: auto;
-    text-align: center;
-    padding: 18px;
-    backdrop-filter: blur(8px);
-  }
-
-  /* avatar */
-  .avatar {
-    width: 140px;
-    height: 140px;
-    margin: auto;
-  }
-
-  /* projects */
-  .grid {
-    grid-template-columns: 1fr;
-    width: 100%;
-    gap: 16px;
-  }
-
-  .project {
-    width: 100%;
-    padding: 16px;
-    border-radius: 16px;
-    backdrop-filter: blur(8px);
-    transition: transform .25s ease, box-shadow .25s ease;
-  }
-
-  .project:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.35);
-  }
-
-  /* contact section */
-  #contact {
-    width: 100%;
-    padding: 16px;
-    text-align: center;
-  }
-
-  #contact > div {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  #contact form {
-    width: 100%;
-    max-width: 360px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
+  #contact{width:100%;padding:16px;text-align:center}
+  #contact > div{flex-direction:column;align-items:center;gap:16px}
+  #contact form{width:100%;max-width:360px;display:flex;flex-direction:column;align-items:center}
   #contact form .field input,
-  #contact form .field textarea {
-    width: 100%;
-    text-align: left;
-    padding: 12px 14px;
-  }
+  #contact form .field textarea{width:100%;padding:12px 14px;text-align:left}
+  #contact form button{width:100%;max-width:200px;margin:6px 0}
+  #contact .socials,#contact .chip{justify-content:center;margin:auto}
 
-  #contact form button {
-    width: 100%;
-    max-width: 200px;
-    margin: 6px 0;
-  }
+  .page-card{max-width:95%;max-height:90vh;padding:16px;border-radius:18px}
+  h1,h2,h3,h4,p{text-align:center}
 
-  /* socials & chips center */
-  #contact .socials,
-  #contact .chip {
-    justify-content: center;
-    margin: auto;
-  }
-
-  /* overlay page-card */
-  .page-card {
-    max-width: 95%;
-    max-height: 90vh;
-    padding: 16px;
-    border-radius: 18px;
-  }
-
-  /* semua heading & paragraph center */
-  h1,h2,h3,h4,p {
-    text-align: center;
-  }
-
-  /* tombol lebih interaktif */
-  .btn {
-    width: 100%;
-    max-width: 200px;
-    font-size: 15px;
-    padding: 12px 0;
-    margin: 4px auto;
-  }
-
-  .controls {
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    align-items: center;
-  }
+  .btn{width:100%;max-width:200px;font-size:15px;padding:12px 0;margin:4px auto}
+  .controls{flex-direction:column;gap:10px;width:100%;align-items:center}
 }
