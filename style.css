@@ -188,3 +188,76 @@ textarea{min-height:120px;resize:vertical}
     padding:15px;
   }
 }
+
+/* --------------------------
+   MAIN TRANSPARAN
+   -------------------------- */
+#root {
+  background: transparent; /* sebelumnya #root memiliki padding + max-width */
+}
+
+/* --------------------------
+   MOBILE RESPONSIVE CENTERING
+   -------------------------- */
+@media (max-width:720px){
+  /* layout di main jadi center */
+  .layout {
+    grid-template-columns:1fr;
+    justify-items:center; /* semua elemen di grid center horizontal */
+    align-items:center;
+  }
+
+  /* kontak section flex agar terpusat */
+  #contact > div {
+    flex-direction: column; /* susun vertikal */
+    align-items: center;    /* center horizontal */
+    text-align: center;     /* teks di tengah */
+  }
+
+  /* field form center */
+  #contact form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 400px; /* batasi lebar form */
+  }
+
+  #contact form .field input,
+  #contact form .field textarea {
+    width: 100%; /* penuh tapi masih sesuai max-width */
+    text-align: center; /* placeholder dan teks di tengah */
+  }
+
+  #contact form button {
+    width: 100%; /* tombol full-width */
+    max-width: 200px;
+    margin: 4px auto; /* beri jarak antar tombol */
+  }
+
+  /* socials dan chips di kontak center */
+  #contact .socials, 
+  #contact .chip {
+    justify-content: center;
+    margin: auto;
+  }
+
+  /* overlay page-card juga center di mobile */
+  .page-card {
+    margin: auto;
+    max-width: 90%;
+    max-height: 95vh;
+  }
+
+  /* hero dan profile-card juga center */
+  .hero, .profile-card {
+    margin: auto;
+    text-align: center;
+  }
+
+  /* semua teks heading dan paragraph center di HP */
+  h1, h2, h3, h4, p {
+    text-align: center;
+  }
+}
