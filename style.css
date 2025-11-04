@@ -55,8 +55,8 @@ header{display:flex;align-items:center;justify-content:space-between;gap:18px;ma
 .brand h1{margin:0;font-size:20px}
 .brand p{margin:0;font-size:13px;opacity:.95}
 nav .menu{display:flex;gap:12px}
-nav a{color:inherit;text-decoration:none;font-weight:600;padding:8px 12px;border-radius:10px}
-nav a:hover{transform:translateY(-4px)}
+nav a{color:inherit;text-decoration:none;font-weight:600;padding:8px 12px;border-radius:10px;transition:transform .2s ease, background-color .2s ease}
+nav a:hover{transform:translateY(-4px); background-color: rgba(255,255,255,0.1)}
 
 main{position:relative;z-index:10}
 .layout{display:grid;grid-template-columns:1fr 380px;gap:30px;align-items:start; justify-items:start;}
@@ -65,8 +65,8 @@ main{position:relative;z-index:10}
 .small-muted{font-size:13px;opacity:.95}
 
 /* hero */
-.hero h2{margin:0 0 8px 0;font-size:30px;line-height:1.05}
-.hero p{margin:0 0 14px 0;opacity:.95}
+.hero h2{margin:0 0 8px 0;font-size:30px;line-height:1.05; font-weight: 700;}
+.hero p{margin:0 0 14px 0;opacity:.95; line-height: 1.4;}
 
 /* buttons */
 .controls{display:flex;gap:10px;flex-wrap:wrap}
@@ -86,16 +86,22 @@ main{position:relative;z-index:10}
 
 /* projects */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:6px}
-.project{background:rgba(255,255,255,0.03);padding:12px;border-radius:12px;display:flex;flex-direction:column;gap:10px;transition:transform .28s,box-shadow .28s}
-.project:hover{transform:translateY(-10px);box-shadow:0 26px 60px rgba(0,0,0,0.4)}
-.project img{width:100%;height:160px;object-fit:cover;border-radius:10px}
+.project{background:rgba(255,255,255,0.03);padding:12px;border-radius:12px;display:flex;flex-direction:column;gap:10px;transition:transform .28s ease, box-shadow .28s ease, filter .28s ease}
+.project:hover{transform:translateY(-10px);box-shadow:0 26px 60px rgba(0,0,0,0.4); filter: brightness(1.05)}
+.project img{width:100%;height:160px;object-fit:cover;border-radius:10px; transition: transform .28s ease}
+.project:hover img{transform: scale(1.02)}
 .links{display:flex;gap:8px;margin-top:auto}
-.chip{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.03);font-weight:600}
+.chip{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.03);font-weight:600; transition: background-color .2s ease}
+.chip:hover{background-color: rgba(255,255,255,0.1)}
 
 /* socials */
 .socials{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.socials a{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,0.03);text-decoration:none}
+.socials a{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,0.03);text-decoration:none; transition: transform .2s ease, background-color .2s ease}
+.socials a:hover{transform: scale(1.1); background-color: rgba(255,255,255,0.1)}
 .socials svg{width:20px;height:20px;fill:var(--mono-icon);opacity:0.98}
+
+/* contact chips */
+.contact-chips{display:flex;flex-direction:column;gap:8px}
 
 /* forms */
 .field{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
@@ -157,38 +163,105 @@ textarea{min-height:120px;resize:vertical}
 }
 
 /* --------------------------
-   MOBILE ENHANCED
+   RESPONSIVE DESIGN
    -------------------------- */
-@media (max-width:720px){
-  #root{padding:20px 12px}
 
-  header{flex-direction:column;align-items:center;text-align:center;gap:16px}
-  nav .menu{flex-direction:column;gap:10px}
-  nav a{width:100%;max-width:200px;padding:10px 16px;border-radius:14px}
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  #root { padding: 24px 16px; }
+  .layout { grid-template-columns: 1fr; gap: 24px; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .hero h2 { font-size: 28px; }
+}
 
-  .layout{grid-template-columns:1fr;justify-items:center;align-items:center;gap:20px}
+/* Mobile Styles */
+@media (max-width: 720px) {
+  #root { padding: 20px 16px; }
 
-  .hero,.profile-card{width:90%;max-width:300px;margin:auto;text-align:center;padding:18px;backdrop-filter:blur(8px);border-radius:18px}
-  .hero h2{font-size:26px}
-  .hero p{font-size:14px}
+  header { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+  .brand { justify-content: flex-start; }
+  nav .menu { flex-direction: row; gap: 8px; flex-wrap: wrap; justify-content: flex-start; }
+  nav a { padding: 8px 12px; border-radius: 12px; font-size: 14px; transition: all .2s ease; }
+  nav a:hover { transform: translateY(-2px); background-color: rgba(255,255,255,0.08); }
 
-  .avatar{width:140px;height:140px;margin:auto}
+  .layout { grid-template-columns: 1fr; gap: 24px; justify-items: stretch; align-items: stretch; }
 
-  .grid{grid-template-columns:1fr;width:100%;gap:16px}
-  .project{width:100%;padding:16px;border-radius:16px;backdrop-filter:blur(8px);transition: transform .25s ease, box-shadow .25s ease}
-  .project:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,0.35)}
+  .hero { width: 100%; padding: 20px; backdrop-filter: blur(8px); border-radius: 16px; text-align: left; }
+  .hero h2 { font-size: 24px; margin-bottom: 12px; }
+  .hero p { font-size: 15px; line-height: 1.5; }
 
-  #contact{width:100%;padding:16px;text-align:center}
-  #contact > div{flex-direction:column;align-items:center;gap:16px}
-  #contact form{width:100%;max-width:360px;display:flex;flex-direction:column;align-items:center}
+  .profile-card { width: 100%; padding: 20px; backdrop-filter: blur(8px); border-radius: 16px; text-align: center; }
+  .avatar { width: 120px; height: 120px; margin: 0 auto 16px; }
+
+  .controls { flex-direction: row; gap: 8px; width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+  .btn { padding: 12px 16px; font-size: 14px; border-radius: 14px; min-width: 120px; transition: all .2s ease; }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(124,92,255,0.2); }
+
+  .grid { grid-template-columns: 1fr; gap: 16px; width: 100%; }
+  .project { padding: 16px; border-radius: 16px; backdrop-filter: blur(8px); transition: all .3s ease; cursor: pointer; }
+  .project:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); filter: brightness(1.02); }
+  .project:active { transform: translateY(-4px); }
+
+  #contact { width: 100%; padding: 20px; text-align: left; }
+  #contact > div { gap: 20px; }
+  #contact form { width: 100%; }
   #contact form .field input,
-  #contact form .field textarea{width:100%;padding:12px 14px;text-align:left}
-  #contact form button{width:100%;max-width:200px;margin:6px 0}
-  #contact .socials,#contact .chip{justify-content:center;margin:auto}
+  #contact form .field textarea { padding: 14px; border-radius: 14px; font-size: 16px; transition: border-color .2s ease; }
+  #contact form .field input:focus,
+  #contact form .field textarea:focus { border-color: var(--accent); outline: none; }
+  #contact form button { width: 100%; padding: 14px; border-radius: 14px; font-size: 16px; transition: all .2s ease; }
+  #contact form button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124,92,255,0.2); }
 
-  .page-card{max-width:95%;max-height:90vh;padding:16px;border-radius:18px}
-  h1,h2,h3,h4,p{text-align:center}
+  .socials { justify-content: flex-start; }
+  .contact-chips { flex-direction: column; gap: 8px; }
+  .socials a { transition: all .2s ease; }
+  .socials a:hover { transform: scale(1.05); background-color: rgba(255,255,255,0.08); }
+  .socials a:active { transform: scale(0.95); }
 
-  .btn{width:100%;max-width:200px;font-size:15px;padding:12px 0;margin:4px auto}
-  .controls{flex-direction:column;gap:10px;width:100%;align-items:center}
+  .page-card { max-width: 100%; padding: 20px; border-radius: 20px; }
+  .section-title { text-align: left; margin-bottom: 16px; }
+  .section-title h3 { font-size: 20px; margin: 0; }
+
+  /* Add touch-friendly interactions */
+  .project, .btn, nav a, .socials a { -webkit-tap-highlight-color: rgba(124,92,255,0.1); }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+  #root { padding: 16px 12px; }
+
+  header { gap: 12px; margin-bottom: 16px; }
+  .brand { gap: 12px; }
+  .brand h1 { font-size: 18px; }
+  .brand p { font-size: 12px; }
+  nav .menu { gap: 6px; }
+  nav a { padding: 6px 10px; font-size: 13px; }
+
+  .layout { gap: 20px; }
+
+  .hero { padding: 16px; border-radius: 14px; }
+  .hero h2 { font-size: 22px; margin-bottom: 10px; }
+  .hero p { font-size: 14px; }
+
+  .profile-card { padding: 16px; border-radius: 14px; }
+  .avatar { width: 100px; height: 100px; margin: 0 auto 12px; }
+
+  .controls { gap: 6px; }
+  .btn { padding: 10px 14px; font-size: 13px; border-radius: 12px; min-width: 100px; }
+
+  .grid { gap: 12px; }
+  .project { padding: 14px; border-radius: 14px; }
+  .project img { height: 140px; }
+
+  #contact { padding: 16px; }
+  #contact > div { gap: 16px; }
+  #contact form .field input,
+  #contact form .field textarea { padding: 12px; font-size: 16px; }
+  #contact form button { padding: 12px; font-size: 15px; }
+
+  .socials { gap: 8px; }
+  .socials a { width: 38px; height: 38px; }
+
+  .page-card { padding: 16px; border-radius: 16px; }
+  .section-title h3 { font-size: 18px; }
 }

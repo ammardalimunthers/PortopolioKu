@@ -13,6 +13,8 @@ const emptyModel = {
   projects: []
 };
 
+const emptyProject = {title:'',desc:'',demo:'',github:'',image:'',fileType:'',fileName:''};
+
 function saveModel(m){ localStorage.setItem(STORAGE_KEY, JSON.stringify(m)); }
 function loadModel(){ try{ const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; }catch(e){return null;} }
 function clearModel(){ localStorage.removeItem(STORAGE_KEY); }
@@ -76,8 +78,9 @@ function renderUI(){
   grid.innerHTML = '';
   (model.projects || []).forEach((p, idx)=>{
     const card = document.createElement('article'); card.className='project';
+    const media = p.image ? `<img src="${p.image}" alt="${esc(p.title)}">` : p.file ? `<div style="width:100%;height:140px;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;"><div style="font-size:14px;margin-bottom:5px;">File: ${esc(p.fileName)}</div><a href="${p.file}" download="${esc(p.fileName)}" class="chip" style="background:#007bff;color:#fff;">Download</a></div>` : `<img src="${placeholderProject(p.title)}" alt="${esc(p.title)}">`;
     card.innerHTML = `
-      <img src="${p.image || placeholderProject(p.title)}" alt="${esc(p.title)}">
+      ${media}
       <h4>${esc(p.title)}</h4>
       <p class="small-muted">${esc(p.desc)}</p>
       <div class="links">
@@ -195,7 +198,7 @@ function openEditProfile(){
 
 function openAddProject(existing=null, idx=null){
   setTheme('project');
-  const item = existing || {title:'',desc:'',demo:'',github:'',image:''};
+  const item = existing || emptyProject;
   pageCard.innerHTML = `
     <div class="page-title">
       <h3>${existing ? 'Edit Proyek' : 'Tambah Proyek'}</h3>
@@ -209,12 +212,12 @@ function openAddProject(existing=null, idx=null){
         <div class="field"><label class="small-muted">Link GitHub (opsional)</label><input id="pGit" type="text" value="${esc(item.github)}"></div>
       </div>
       <div style="width:260px">
-        <div style="margin-bottom:8px"><label class="small-muted">Gambar Proyek (opsional)</label></div>
-        <div style="width:220px;height:140px;border-radius:10px;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:10px">
-          <img id="pPreview" src="${item.image || placeholderProject(item.title)}" style="width:100%;height:100%;object-fit:cover">
+        <div style="margin-bottom:8px"><label class="small-muted">Media Proyek (gambar atau file)</label></div>
+        <div id="pPreviewContainer" style="width:220px;height:140px;border-radius:10px;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:10px">
+          ${item.image ? `<img id="pPreview" src="${item.image}" style="width:100%;height:100%;object-fit:cover">` : item.file ? `<div style="text-align:center"><div>File: ${esc(item.fileName)}</div><a href="${item.file}" download="${esc(item.fileName)}" style="color:#007bff">Download</a></div>` : `<img src="${placeholderProject(item.title)}" style="width:100%;height:100%;object-fit:cover">`}
         </div>
-        <input id="pFile" type="file" accept="image/*">
-        <p class="small-muted">Gambar disimpan di browser.</p>
+        <input id="pFile" type="file">
+        <p class="small-muted">File disimpan di browser (localStorage). Disarankan ukuran < 500KB.</p>
       </div>
     </div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
@@ -232,18 +235,31 @@ function openAddProject(existing=null, idx=null){
     const f = e.target.files && e.target.files[0];
     if(!f) return;
     const r = new FileReader();
-    r.onload = ev => document.getElementById('pPreview').src = ev.target.result;
+    r.onload = ev => {
+      const container = document.getElementById('pPreviewContainer');
+      if(f.type.startsWith('image/')){
+        container.innerHTML = `<img id="pPreview" src="${ev.target.result}" style="width:100%;height:100%;object-fit:cover">`;
+      } else {
+        container.innerHTML = `<div style="text-align:center"><div>File: ${esc(f.name)}</div><a href="${ev.target.result}" download="${esc(f.name)}" style="color:#007bff">Download</a></div>`;
+      }
+    };
     r.readAsDataURL(f);
   });
 
   document.getElementById('saveProjectBtn').addEventListener('click', ()=>{
     const modelNow = loadModel() || JSON.parse(JSON.stringify(emptyModel));
+    const container = document.getElementById('pPreviewContainer');
+    const img = container.querySelector('img');
+    const link = container.querySelector('a');
     const newItem = {
       title: document.getElementById('pTitle').value.trim() || 'Untitled',
       desc: document.getElementById('pDesc').value.trim(),
       demo: document.getElementById('pDemo').value.trim(),
       github: document.getElementById('pGit').value.trim(),
-      image: document.getElementById('pPreview').src || ''
+      image: img && img.id === 'pPreview' ? img.src : '',
+      file: link ? link.href : '',
+      fileType: link ? link.download.split('.').pop() : '',
+      fileName: link ? link.download : ''
     };
     if(idx !== null && idx >= 0) modelNow.projects[idx] = newItem;
     else modelNow.projects.unshift(newItem);
@@ -361,6 +377,8 @@ function initialize(forceShow=false){
   if(!model || forceShow){ saveModel(JSON.parse(JSON.stringify(emptyModel))); openEditProfile(); }
   else renderUI();
 }
+
+
 document.getElementById('openEditProfile').addEventListener('click', openEditProfile);
 document.getElementById('openAddProject').addEventListener('click', ()=>openAddProject());
 window.onEditProject = onEditProject; window.onDeleteProject = onDeleteProject;
