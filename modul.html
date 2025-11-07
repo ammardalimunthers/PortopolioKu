@@ -64,6 +64,16 @@
         button:hover {
             background-color: #0056b3;
         }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .progress {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #666;
+        }
         .highlight {
             background-color: #fff3cd;
             padding: 10px;
@@ -144,7 +154,41 @@
         </div>
 
         <div id="section3" class="section">
-            <h2>3. Cara Posting Website ke GitHub</h2>
+            <h2>3. Fitur-Fitur Unggulan Portofolio Kita</h2>
+            <p>Website portofolio yang telah kita buat memiliki beberapa fitur menarik:</p>
+
+            <h3>✨ Edit Profil Interaktif</h3>
+            <p>Klik tombol "Edit Profil" untuk mengubah nama, deskripsi, email, nomor WA, dan skills Anda.</p>
+
+            <h3>📁 Manajemen Proyek</h3>
+            <p>Tambah, edit, dan hapus proyek dengan mudah. Setiap proyek bisa memiliki gambar, deskripsi, link demo, dan GitHub.</p>
+
+            <h3>💾 Import/Export Data</h3>
+            <p>Simpan data portofolio sebagai file JSON dan muat kembali kapan saja.</p>
+
+            <h3>📱 Responsive Design</h3>
+            <p>Website terlihat bagus di desktop, tablet, dan smartphone.</p>
+
+            <h3>🎨 Tema Dinamis</h3>
+            <p>Animasi halus dan transisi yang menarik.</p>
+
+            <h3>📄 Download CV PNG</h3>
+            <p>Fitur terbaru! Klik tombol "Download CV" untuk mendapatkan CV profesional dalam format PNG dengan:</p>
+            <ul>
+                <li>Avatar profil Anda</li>
+                <li>Informasi kontak lengkap</li>
+                <li>Deskripsi diri</li>
+                <li>Daftar skills</li>
+                <li>Portfolio proyek</li>
+                <li>Desain yang menarik dengan gradient background</li>
+            </ul>
+            <div class="highlight">
+                <strong>Tips:</strong> Isi profil Anda dengan lengkap untuk mendapatkan CV yang maksimal!
+            </div>
+        </div>
+
+        <div id="section4" class="section">
+            <h2>4. Cara Posting Website ke GitHub</h2>
             <p>GitHub Pages memungkinkan Anda untuk hosting website gratis. Langkah-langkah:</p>
             <ol>
                 <li>Buat akun GitHub jika belum ada</li>
@@ -157,8 +201,21 @@
                 <strong>Catatan:</strong> Pastikan file utama bernama <code>index.html</code>.
             </div>
             <p>Alternatif: Gunakan Git untuk push kode dari lokal ke GitHub.</p>
+
+            <h3>Langkah Detail Upload ke GitHub:</h3>
+            <ol>
+                <li>Buka <a href="https://github.com" target="_blank">github.com</a> dan login</li>
+                <li>Klik tombol "+" > "New repository"</li>
+                <li>Beri nama repository (contoh: "portfolio")</li>
+                <li>Upload file: index.html, style.css, script.js</li>
+                <li>Go to Settings > Pages > Source: "main" > Save</li>
+                <li>Tunggu beberapa menit, lalu akses URL yang diberikan</li>
+            </ol>
         </div>
 
+        <div class="progress">
+            Section <span id="currentSectionNum">1</span> dari 4
+        </div>
         <div class="navigation">
             <button id="prevBtn" onclick="prevSection()">Sebelumnya</button>
             <button id="nextBtn" onclick="nextSection()">Selanjutnya</button>
@@ -167,7 +224,7 @@
 
     <script>
         let currentSection = 1;
-        const totalSections = 3;
+        const totalSections = 4;
 
         function showSection(sectionNum) {
             document.querySelectorAll('.section').forEach(section => {
@@ -194,6 +251,7 @@
         function updateButtons() {
             document.getElementById('prevBtn').disabled = currentSection === 1;
             document.getElementById('nextBtn').disabled = currentSection === totalSections;
+            document.getElementById('currentSectionNum').textContent = currentSection;
         }
 
         function copyToClipboard(id) {
