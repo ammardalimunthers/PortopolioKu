@@ -19,6 +19,21 @@ function saveModel(m){ localStorage.setItem(STORAGE_KEY, JSON.stringify(m)); }
 function loadModel(){ try{ const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; }catch(e){return null;} }
 function clearModel(){ localStorage.removeItem(STORAGE_KEY); }
 
+// Check if in shared mode
+const urlParams = new URLSearchParams(window.location.search);
+const isShared = urlParams.has('shared');
+let sharedData = null;
+
+if (isShared) {
+  try {
+    const encoded = urlParams.get('shared');
+    const decoded = atob(encoded);
+    sharedData = JSON.parse(decoded);
+  } catch (e) {
+    console.error('Invalid shared data:', e);
+  }
+}
+
 /* HELPERS */
 function esc(s){ return String(s||''); }
 function initialsSVG(name,w=400,h=400){
@@ -34,7 +49,7 @@ function placeholderProject(title){
 
 /* RENDER */
 function renderUI(){
-  const model = loadModel() || emptyModel;
+  const model = isShared ? sharedData : (loadModel() || emptyModel);
   setTheme('portfolio');
 
   document.getElementById('titleName').textContent = model.profile.name || '';
@@ -79,6 +94,7 @@ function renderUI(){
   (model.projects || []).forEach((p, idx)=>{
     const card = document.createElement('article'); card.className='project';
     const media = p.image ? `<img src="${p.image}" alt="${esc(p.title)}">` : p.file ? `<div style="width:100%;height:140px;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;"><div style="font-size:14px;margin-bottom:5px;">File: ${esc(p.fileName)}</div><a href="${p.file}" download="${esc(p.fileName)}" class="chip" style="background:#007bff;color:#fff;">Download</a></div>` : `<img src="${placeholderProject(p.title)}" alt="${esc(p.title)}">`;
+    const editButtons = isShared ? '' : `<button class="chip" data-idx="${idx}" onclick="onEditProject(event)">Edit</button><button class="chip" data-idx="${idx}" onclick="onDeleteProject(event)">Hapus</button>`;
     card.innerHTML = `
       ${media}
       <h4>${esc(p.title)}</h4>
@@ -86,8 +102,7 @@ function renderUI(){
       <div class="links">
         <a class="chip" href="${p.demo || '#'}" target="_blank">Demo</a>
         <a class="chip" href="${p.github || '#'}" target="_blank">GitHub</a>
-        <button class="chip" data-idx="${idx}" onclick="onEditProject(event)">Edit</button>
-        <button class="chip" data-idx="${idx}" onclick="onDeleteProject(event)">Hapus</button>
+        ${editButtons}
       </div>
     `;
     grid.appendChild(card);
@@ -95,6 +110,11 @@ function renderUI(){
 
   // reveal
   document.querySelectorAll('.reveal').forEach((el,i)=>setTimeout(()=>el.classList.add('show'), 120 + i*80));
+
+  // Hide controls in shared mode
+  if (isShared) {
+    document.querySelector('.controls').style.display = 'none';
+  }
 }
 
 /* Social icons (monochrome white SVGs) */
@@ -382,8 +402,28 @@ function initialize(forceShow=false){
 document.getElementById('openEditProfile').addEventListener('click', openEditProfile);
 document.getElementById('openAddProject').addEventListener('click', ()=>openAddProject());
 document.getElementById('btnDownloadCV').addEventListener('click', downloadCV);
+document.getElementById('btnShare').addEventListener('click', sharePortfolio);
 window.onEditProject = onEditProject; window.onDeleteProject = onDeleteProject;
 document.addEventListener('DOMContentLoaded', ()=> initialize());
+
+/* Share Portfolio */
+function sharePortfolio(){
+  const model = loadModel() || emptyModel;
+  if(!model.profile.name){ alert('Isi nama Anda terlebih dahulu di Edit Profil.'); openEditProfile(); return; }
+
+  const jsonStr = JSON.stringify(model);
+  const encoded = btoa(jsonStr);
+  const shareUrl = `${window.location.origin}${window.location.pathname}?shared=${encoded}`;
+
+  // Copy to clipboard
+  navigator.clipboard.writeText(shareUrl).then(()=>{
+    alert('Link portofolio berhasil disalin! Bagikan link ini kepada orang lain.');
+  }).catch(err=>{
+    console.error('Failed to copy:', err);
+    // Fallback: show URL in prompt
+    prompt('Salin link portofolio ini:', shareUrl);
+  });
+}
 
 /* Download CV */
 function downloadCV(){
